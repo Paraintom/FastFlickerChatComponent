@@ -215,6 +215,7 @@
                 this.push('messages', {class: "sent", value: message});
                 //event.preventDefault();
                 this.fastFlicker.send(message);
+				this.$.toSend.value = '';
             }
         }
     });
