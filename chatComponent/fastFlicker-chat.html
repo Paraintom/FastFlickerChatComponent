@@ -130,24 +130,33 @@
                 border-width: 5px 0 5px 5px;
                 right: -5px;
             }
+			#collapseButon {
+				position: absolute;
+				top: 0px;
+				right: 5px;
+				width: 15px;
+                font-size:20px;
+			} 
         </style>
 		<flicker-chat>
-		  <chat-header>
-			 <chat-h-name>{{header}}</chat-h-name>
-		  </chat-header>
-		  <chat-body>
-              <template is="dom-repeat" items="{{messages}}">
-                  <chat-bubble class$="{{item.class}}">{{item.value}}</chat-bubble>
-              </template>
-		  </chat-body>
-		  <chat-footer>
-			 <div class="wrapper">
-                 <form action="" onsubmit="return false" autocomplete="off" >
-                     <input id="toSend" type="" class="send_inp" />
-                     <button class="send" on-click="doSend">Send</button>
-                 </form>
-			 </div>
-		  </chat-footer>
+			<chat-header>
+				<chat-h-name>{{header}}</chat-h-name><span id="collapseButon">-</span>
+			</chat-header>		  
+			<div id="toCollapse">
+				<chat-body>
+					<template is="dom-repeat" items="{{messages}}">
+						<chat-bubble class$="{{item.class}}">{{item.value}}</chat-bubble>
+					</template>
+				</chat-body>
+				<chat-footer>
+					<div class="wrapper">
+						<form action="" onsubmit="return false" autocomplete="off" >
+							<input id="toSend" type="" class="send_inp" />
+							<button class="send" on-click="doSend">Send</button>
+						</form>
+					</div>
+				</chat-footer>
+			</div>
 		</flicker-chat>
 
 	</template>
@@ -195,6 +204,19 @@
             });
 
             this.fastFlicker.open();
+			
+			//Take car of collapse toggle:
+			//collapseButon
+			var btn = document.getElementById("collapseButon");
+			btn.onclick = function(){
+				var section = document.getElementById("toCollapse");
+				if(section.style.display === 'none'){
+					section.style.display = '';
+				}
+				else{
+					section.style.display = 'none';
+				}
+			}
         },
     
         // Fires when the element was inserted into the document
