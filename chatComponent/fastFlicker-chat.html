@@ -137,10 +137,18 @@
 				width: 15px;
                 font-size:20px;
 			} 
+			#connectionIndicator {
+				display: inline-block;
+				margin-left:5px;
+				margin-top:5px;
+				width: 15px;
+				height: 15px;
+                background-color : orange;
+			} 
         </style>
 		<flicker-chat>
 			<chat-header>
-				<chat-h-name>{{header}}</chat-h-name><span id="collapseButon">-</span>
+				<span id="connectionIndicator" title="connecting..."></span> <chat-h-name>{{header}}</chat-h-name><span id="collapseButon">-</span>
 			</chat-header>		  
 			<div id="toCollapse">
 				<chat-body>
@@ -163,6 +171,13 @@
     
     <!-- Registers custom element -->
     <script>
+	
+	var changeIndicator = function(newColor,newTooltip){
+		var indicator = document.getElementById("connectionIndicator");
+		indicator.style.backgroundColor = newColor;
+		indicator.title = newTooltip;
+	}
+	
     Polymer({
         is: 'fastFlicker-chat',
 
@@ -196,11 +211,13 @@
             });
             this.fastFlicker.onError().subscribe(function (a) {
                 currentComponent.header = "Error, see console logs";
+				changeIndicator('red', 'errors');
             });
             this.fastFlicker.onReady().subscribe(function () {
                 console.log("fastFlicker ready");
                 currentComponent.messages = [];
-                currentComponent.push('messages', {class : "", value : "chat initialized"});
+				changeIndicator('green', 'connected');
+                //currentComponent.push('messages', {class : "", value : "chat initialized"});
             });
 
             this.fastFlicker.open();
